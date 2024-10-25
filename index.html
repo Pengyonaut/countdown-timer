@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown Timer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --grayish-blue: hsl(237, 18%, 59%);
+      --soft-red: hsl(345, 95%, 68%);
+      --white: hsl(0, 0%, 100%);
+      --dark-desaturated-blue: hsl(236, 21%, 26%);
+      --very-dark-blue: hsl(235, 16%, 14%);
+      --darker-blue: hsl(234, 17%, 12%);
+    }
+    body {
+      font-family: 'Red Hat Text', sans-serif;
+      height: 100vh;
+      background: var(--darker-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 2rem; }
+    .countdown { display: flex; gap: 1rem; justify-content: center; }
+    .count {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .circle {
+      width: 70px; height: 70px;
+      background: var(--dark-desaturated-blue);
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--soft-red);
+    }
+    .count p {
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      color: var(--grayish-blue);
+      margin-top: 0.5rem;
+    }
+    .play-pause-btn {
+      margin-top: 50px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: var(--dark-desaturated-blue);
+      color: var(--soft-red);
+      font-weight: bold;
+      text-transform: uppercase;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vacaciooooooones</h1>
+    <div class="countdown">
+      <div class="count">
+        <div class="circle day">00</div>
+        <p>Days</p>
+      </div>
+      <div class="count">
+        <div class="circle hour">00</div>
+        <p>Hours</p>
+      </div>
+      <div class="count">
+        <div class="circle minute">00</div>
+        <p>Minutes</p>
+      </div>
+      <div class="count">
+        <div class="circle second">00</div>
+        <p>Seconds</p>
+      </div>
+    </div>
+    <button class="play-pause-btn" id="playPauseBtn">Mas intenso por favor</button>
+    <audio id="music" src="propuestaa.mp3"></audio>
+  </div>
+  <script>
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const music = document.getElementById('music');
+    playPauseBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        playPauseBtn.textContent = 'Menos intenso por favor';
+      } else {
+        music.pause();
+        playPauseBtn.textContent = 'Mas intenso por favor';
+      }
+    });
+    function updateCountdown() {
+      const targetDate = new Date('October 30, 2024 17:50:00').getTime();
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      document.querySelector('.day').textContent = String(days).padStart(2, '0');
+      document.querySelector('.hour').textContent = String(hours).padStart(2, '0');
+      document.querySelector('.minute').textContent = String(minutes).padStart(2, '0');
+      document.querySelector('.second').textContent = String(seconds).padStart(2, '0');
+      if (timeLeft < 0) {
+        clearInterval(interval);
+        document.querySelector('.container').innerHTML = '<h1>Hala Madrid</h1>';
+      }
+    }
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
