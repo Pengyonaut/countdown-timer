@@ -24,9 +24,33 @@
       justify-content: center;
       color: var(--white);
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      display: none;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+      display: none;
     }
     .container {
       max-width: 600px;
+      position: relative;
+      z-index: 2;
     }
     h1 { font-size: 1.5rem; margin-bottom: 2rem; }
     .countdown { display: flex; gap: 1rem; justify-content: center; }
@@ -66,8 +90,10 @@
   </style>
 </head>
 <body>
+  <video class="background-video" id="backgroundVideo" src="santos.mp4" autoplay muted loop></video>
+  <div class="overlay" id="overlay"></div>
   <div class="container">
-    <h1>Fête des lumièèèères</h1>
+    <h1>Vacaciooooooones</h1>
     <div class="countdown">
       <div class="count">
         <div class="circle day">00</div>
@@ -92,17 +118,25 @@
   <script>
     const playPauseBtn = document.getElementById('playPauseBtn');
     const music = document.getElementById('music');
+    const backgroundVideo = document.getElementById('backgroundVideo');
+    const overlay = document.getElementById('overlay');
+
     playPauseBtn.addEventListener('click', () => {
       if (music.paused) {
         music.play();
+        backgroundVideo.style.display = 'block';
+        overlay.style.display = 'block';
         playPauseBtn.textContent = 'Menos intenso por favor';
       } else {
         music.pause();
+        backgroundVideo.style.display = 'none';
+        overlay.style.display = 'none';
         playPauseBtn.textContent = 'Mas intenso por favor';
       }
     });
+
     function updateCountdown() {
-      const targetDate = new Date('December 5, 2024 00:00:00').getTime();
+      const targetDate = new Date('December 5, 2024 15:00:00').getTime();
       const now = new Date().getTime();
       const timeLeft = targetDate - now;
       const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -118,6 +152,7 @@
         document.querySelector('.container').innerHTML = '<h1>Hala Madrid</h1>';
       }
     }
+
     const interval = setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
